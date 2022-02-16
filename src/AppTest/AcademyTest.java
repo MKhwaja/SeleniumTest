@@ -1,5 +1,6 @@
 package AppTest;
 
+import AppMain.PageObjects.greenKartPage;
 import AppMain.PageObjects.practiceBlock1;
 import AppTest.Resources.base;
 import AppMain.PageObjects.homePageObjects;
@@ -19,10 +20,11 @@ import static java.lang.Integer.parseInt;
 
 public class AcademyTest extends base {
 
+
     @BeforeTest
     public void initiateExecution() throws IOException {
         driver = intializeDriver();
-        driver.get(loadProperties("url1"));
+        driver.get(loadProperties("url2"));
     }
     
 
@@ -97,7 +99,7 @@ public class AcademyTest extends base {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void testWebTable() {
         String finalVal = null;
         int num_rows = driver.findElements(By.xpath("//div[@class='left-align']/fieldset/table/tbody/tr")).size();
@@ -113,6 +115,27 @@ public class AcademyTest extends base {
 
         System.out.println(finalVal);
 
+    }
+
+    @Test(priority = 1)
+    public void testSearch() {
+        greenKartPage greenKart = new greenKartPage(driver);
+        greenKart.getSearchElements().searchBoxElement().sendKeys("p");
+        greenKart.getSearchElements().searchBtnElement().click();
+    }
+
+
+    @Test(priority = 2)
+    public void testAddCart() {
+        greenKartPage greenKart = new greenKartPage(driver);
+        greenKart.getAddCartElements().addCartBtnElement("Raspberry - 1/4 Kg").click();
+//        for(WebElement cartElement : greenKart.getAddCartElements().productNameElement()) {
+//            System.out.println(cartElement.getAttribute("innerHTML"));
+//            if(cartElement.getAttribute("innerHTML").equalsIgnoreCase("Raspberry - 1/4 Kg")) {
+//                greenKart.getAddCartElements().addCartBtnElement().click();
+//                break;
+//            }
+//        }
     }
 
     @AfterTest
